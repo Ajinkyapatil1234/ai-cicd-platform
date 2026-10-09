@@ -1,0 +1,62 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-cicd-demo
+  labels:
+    app: ai-cicd-demo
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: ai-cicd-demo
+
+  template:
+    metadata:
+      labels:
+        app: ai-cicd-demo
+
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+
+      containers:
+        - name: ai-cicd-demo
+          image: ai-cicd-demo:1.0
+          imagePullPolicy: Never
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+
+          ports:
+            - containerPort: 8080
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10

@@ -1,5 +1,23 @@
+
 .venv/
 __pycache__/
 .pytest_cache/
 .env
+.env.*
+!.env.example
 *.pyc
+
+mcp_server/.env
+
+# Generated security scan reports
+trivy-report.json
+trixie-report.json
+
+# Python caches and local backups
+__pycache__/
+*.py[cod]
+*.backup
+*.backup*
+
+# Generated test artifacts
+.pytest_cache/

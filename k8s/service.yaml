@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-cicd-demo
+spec:
+  selector:
+    app: ai-cicd-demo
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: NodePort
